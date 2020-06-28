@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+using static Controls;
 
-public class SkipTutorial : AttachToGameMonoBehavior {
-    protected override void CreateControl(Controls controls) {
-        var menu = new MenuOneDimensionControl();
+public class SkipTutorial : AttachToGameMonoBehavior<MenuOneDimensionActions, MenuOneDimensionControl> {
+    protected override void AttacheEventsToControls(Controls controls, MenuOneDimensionControl menu) {
         menu.ForwardStarted += (s, c) => index++;
         menu.BackwardStarted += (s, c) => index--;
         menu.CancelStarted += (s, c) => gameObject.SetActive(false);
         menu.ConfirmStarted += (s, c) => OnChoice?.Invoke(this, (Choice)index);
-        controls.MenuOneDimension.SetCallbacks(menu);
-        controls.MenuOneDimension.Enable();
     }
-    protected override void DisableControl(Controls controls) => controls.MenuOneDimension.Disable();
     public enum Choice{
         yes,
         no

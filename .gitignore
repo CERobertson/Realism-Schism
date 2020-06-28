@@ -83,3 +83,6 @@ crashlytics-build.properties
 
 #Prefabs
 /Assets/Prefabs/*
+
+#Sketchfab for Unity
+/Assets/Sketchfab For Unity/*

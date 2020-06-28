@@ -8,14 +8,22 @@ using UnityEngine;
 /// classes. 
 /// </summary>
 public static class SharedControls {
+    public static readonly string DisableMethodName = "Disable";
+    public static readonly string EnableMethodName = "Enable";
+    public static readonly string SetCallbacksMethodName = "SetCallbacks";
+
     static SharedControls() => controls = new Controls();
     static Controls controls { get; }
     static SemaphoreSlim _control_lock = new SemaphoreSlim(1);
     public static bool Access(Action<Controls> updateControls) {
         if (_control_lock.CurrentCount != 0) {
             _control_lock.Wait();
-            updateControls(controls);
-            _control_lock.Release();
+            try {
+                updateControls(controls);
+            }
+            finally {
+                _control_lock.Release();
+            }
             return true;
         }
         else
@@ -28,4 +36,10 @@ public static class SharedControls {
         while (!Access(updateControl))
             yield return new WaitForSeconds(delay_between_checks);
     }
+}
+
+public interface IActions {
+    void Enable();
+    void Disable();
+    void SetCallbacks<T>(T instance);
 }

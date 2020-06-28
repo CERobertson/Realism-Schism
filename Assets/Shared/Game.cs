@@ -37,8 +37,12 @@ public class Game : MonoBehaviour
     public static bool Access(Action<Game> updateGame) {
         if (_lock.CurrentCount != 0) {
             _lock.Wait();
-            updateGame(Instance);
-            _lock.Release();
+            try {
+                updateGame(Instance);
+            }
+            finally {
+                _lock.Release();
+            }
             return true;
         }
         else
@@ -53,19 +57,33 @@ public class Game : MonoBehaviour
     }
 }
 
-public abstract class AttachToGameMonoBehavior : MonoBehaviour
-{
+public abstract class AttachToGameMonoBehavior<Action, Control> : MonoBehaviour 
+    where Action : struct
+    where Control : class, new() {
     public void Awake() => AttachToGame(this);
+    public void OnEnable() => CreateControl(AttacheEventsToControls);
+    public void OnDisable() => DisableControl();
+    public void OnDestroy() => DetachFromGame();
 
-    public void OnEnable() => SharedControls.AccessWithRetry(CreateControl);
-    public void OnDisable() => SharedControls.AccessWithRetry(DisableControl);
-    public void OnDestroy() => DettachFromGame();
-
-    protected abstract void CreateControl(Controls controls);
-    protected abstract void DisableControl(Controls controls);
-    protected void AttachToGame<T>(T value) => 
+    protected abstract void AttacheEventsToControls(Controls controls, Control c);
+    protected void AttachToGame<T>(T value) =>
         Game.AccessWithRetry(g => typeof(Game).GetProperty(GetType().Name, GetType()).SetValue(g, value));
-    protected void DettachFromGame() =>
+    protected void DetachFromGame() =>
         Game.AccessWithRetry(g => typeof(Game).GetProperty(GetType().Name, GetType()).SetValue(g, null));
+
+    protected void CreateControl(Action<Controls, Control> attachEventHandlers) =>
+        SharedControls.AccessWithRetry(c => { 
+            var control = new Control();
+            attachEventHandlers(c, control);
+            var action = typeof(Controls).GetProperty(GetType().Name, typeof(Action)).GetValue(c);
+            action.GetType().GetMethod(SharedControls.SetCallbacksMethodName).Invoke(action, new[] { control });
+            action.GetType().GetMethod(SharedControls.EnableMethodName).Invoke(action, null);
+        });
+
+    protected void DisableControl() =>
+        SharedControls.AccessWithRetry(c => {
+            var action = typeof(Controls).GetProperty(GetType().Name, typeof(Action)).GetValue(c);
+            action.GetType().GetMethod(SharedControls.DisableMethodName).Invoke(action, null);
+        });
 }
 
