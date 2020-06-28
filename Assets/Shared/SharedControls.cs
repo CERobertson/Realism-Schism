@@ -37,9 +37,3 @@ public static class SharedControls {
             yield return new WaitForSeconds(delay_between_checks);
     }
 }
-
-public interface IActions {
-    void Enable();
-    void Disable();
-    void SetCallbacks<T>(T instance);
-}

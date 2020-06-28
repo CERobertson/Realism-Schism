@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e45979c77fd3741a43acb6cd8400f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attract: {fileID: 0}
+  skipTutorial: {fileID: 0}
 --- !u!4 &1706227286
 Transform:
   m_ObjectHideFlags: 0

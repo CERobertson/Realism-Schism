@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/_game.unity
+    guid: 689aafbf35bb48f4684ed98b62e93f11
+  - enabled: 1
+    path: Assets/Scenes/Attract.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/JapaneseMaple.unity
+    guid: c07301d3ccfbe7749a5766ec402ae35d
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: a272a6d5951a58e4c8a48790f929502b
   m_configObjects: {}
