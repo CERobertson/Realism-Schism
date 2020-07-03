@@ -2,13 +2,13 @@
 using UnityEngine.UI;
 using static Controls;
 
-public class SkipTutorial : AttachControlToGameMonoBehavior<MenuOneDimensionActions, MenuOneDimensionControl> {
+public class QuickStart : AttachControlToGameMonoBehavior<MenuOneDimensionActions, MenuOneDimensionControl> {
     protected override void AttacheEventsToControls(Controls controls, MenuOneDimensionControl menu) {
         menu.ForwardStarted += (s, c) => index++;
         menu.BackwardStarted += (s, c) => index--;
         menu.CancelStarted += (s, cc) => {
             menu.gameObject.SetActive(false);
-            Game.AccessWithRetry((c) => {
+            SharedGame.AccessWithRetry((c) => {
                 c.Attract.gameObject.SetActive(true);
                 c.Attract.enabled = true;
             });

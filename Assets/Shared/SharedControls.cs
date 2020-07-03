@@ -31,7 +31,7 @@ public static class SharedControls {
         return false;
     }
     public static void AccessWithRetry(Action<Controls> updateControl, float delay_between_checks = 0.01f) 
-        => Game.MonoBehavior.StartCoroutine(accessWithRetry(updateControl, delay_between_checks));
+        => SharedGame.MonoBehavior.StartCoroutine(accessWithRetry(updateControl, delay_between_checks));
     static IEnumerator accessWithRetry(Action<Controls> updateControl, float delay_between_checks) {
         while (!Access(updateControl))
             yield return new WaitForSeconds(delay_between_checks);

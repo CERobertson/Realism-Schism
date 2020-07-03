@@ -4,9 +4,9 @@ public class Attract : AttachControlToGameMonoBehavior<AttractActions, AttractCo
     protected override void AttacheEventsToControls(Controls controls, AttractControl attract)
         => attract.InteractStarted += (s, cc) => {
             attract.gameObject.SetActive(false);
-            Game.AccessWithRetry((c) => {
-                c.SkipTutorial.gameObject.SetActive(true);
-                c.SkipTutorial.enabled = true;
+            SharedGame.AccessWithRetry((c) => {
+                c.QuickStart.gameObject.SetActive(true);
+                c.QuickStart.enabled = true;
             });
         };
 }

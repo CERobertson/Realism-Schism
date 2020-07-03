@@ -4,8 +4,25 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Game : MonoBehaviour
-{
+public class SharedGame : MonoBehaviour {
+    static SharedGame Instance;
+    public static MonoBehaviour MonoBehavior { get => Instance; }
+    public void Awake() {
+        if (Instance == null) {
+            SceneManager.sceneLoaded += (s, scene) => {
+                SceneManagerControl = GameObject.Find("SceneManager")?.GetComponent<SceneManagerControl>();
+                if (SceneManagerControl != null)
+                    SceneManagerControl.enabled = true;
+            };
+            SceneManager.sceneUnloaded += (s) =>
+                SceneManagerControl = null;
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+            Debug.LogWarning("Only one instance of MonoBehavior Game should be running.");
+    }
+
     public event EventHandler<SceneManagerControl> SceneManagerControlChanged;
     public SceneManagerControl sceneManagerControl;
     public SceneManagerControl SceneManagerControl {
@@ -25,13 +42,23 @@ public class Game : MonoBehaviour
             AttractChanged?.Invoke(this, value);
         }
     }
-    public event EventHandler<MenuOneDimensionControl> SkipTutorialChanged;
-    public MenuOneDimensionControl skipTutorial;
-    public MenuOneDimensionControl SkipTutorial {
-        get => skipTutorial;
+    public event EventHandler<MenuOneDimensionControl> QuickStartChanged;
+    public MenuOneDimensionControl quickStart;
+    public MenuOneDimensionControl QuickStart {
+        get => quickStart;
         set {
-            skipTutorial = value;
-            SkipTutorialChanged?.Invoke(this, value);
+            quickStart = value;
+            QuickStartChanged?.Invoke(this, value);
+        }
+    }
+
+    public event EventHandler<GameControl> GameChanged;
+    public GameControl game;
+    public GameControl Game {
+        get => game;
+        set {
+            game = value;
+            GameChanged?.Invoke(this, value);
         }
     }
 
@@ -44,27 +71,9 @@ public class Game : MonoBehaviour
             VehicleBasicChanged?.Invoke(this, value);
         }
     }
-
-    static Game Instance;
-    public static MonoBehaviour MonoBehavior { get => Instance; }
-    public void Awake() {
-        if (Instance == null) {
-            SceneManager.sceneLoaded += (s, scene) => {
-                SceneManagerControl = GameObject.Find("SceneManager")?.GetComponent<SceneManagerControl>();
-                if (SceneManagerControl != null)
-                    SceneManagerControl.enabled = true;
-            };
-            SceneManager.sceneUnloaded += (s) => 
-                SceneManagerControl = null;
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else
-            Debug.LogWarning("Only one instance of MonoBehavior Game should be running.");
-    }
     
     static SemaphoreSlim _lock = new SemaphoreSlim(1);
-    public static bool Access(Action<Game> updateGame) {
+    public static bool Access(Action<SharedGame> updateGame) {
         if (_lock.CurrentCount != 0) {
             _lock.Wait();
             try {
@@ -79,9 +88,9 @@ public class Game : MonoBehaviour
             Debug.Log($"Failed to obtain access lock. Consider retrying");
         return false;
     }
-    public static void AccessWithRetry(Action<Game> updateGame, float delay_between_checks = 0.01f) 
+    public static void AccessWithRetry(Action<SharedGame> updateGame, float delay_between_checks = 0.01f) 
         => Instance.StartCoroutine(accessWithRetry(updateGame, delay_between_checks));
-    static IEnumerator accessWithRetry(Action<Game> updateGame, float delay_between_checks) {
+    static IEnumerator accessWithRetry(Action<SharedGame> updateGame, float delay_between_checks) {
         while (!Access(updateGame))
             yield return new WaitForSeconds(delay_between_checks);
     }
@@ -101,9 +110,9 @@ public abstract class AttachControlToGameMonoBehavior<Action, Control> : MonoBeh
     }
     protected abstract void AttacheEventsToControls(Controls controls, Control c);
     protected void AttachToGame<T>(T value) =>
-        Game.AccessWithRetry(g => typeof(Game).GetProperty(GetType().Name).SetValue(g, value));
+        SharedGame.AccessWithRetry(g => typeof(SharedGame).GetProperty(GetType().Name).SetValue(g, value));
     protected void DetachFromGame() =>
-        Game.AccessWithRetry(g => typeof(Game).GetProperty(GetType().Name).SetValue(g, null));
+        SharedGame.AccessWithRetry(g => typeof(SharedGame).GetProperty(GetType().Name).SetValue(g, null));
     protected void CreateControl(Action<Controls, Control> attachEventHandlers) =>
         SharedControls.AccessWithRetry(c => { 
             ControlMonoBehavior = ControlGameObject.AddComponent<Control>();

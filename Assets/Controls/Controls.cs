@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Input/Controls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Controls/Controls.inputactions'
 
 using System;
 using System.Collections;
@@ -157,6 +157,115 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Loading"",
+            ""id"": ""2d9cce9b-a1bd-4f33-86c1-490eb6753515"",
+            ""actions"": [
+                {
+                    ""name"": ""Next Hint"",
+                    ""type"": ""Button"",
+                    ""id"": ""f37d9b11-dced-45ef-a370-e42433516b28"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Previous Hint"",
+                    ""type"": ""Button"",
+                    ""id"": ""f13e2d9d-11e0-4c25-b724-95ecb100461e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Continue"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed4e861a-53ad-4ac1-a612-b20dc0015911"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fa3097ea-87d0-41ae-94ba-2dd6f3dc0d2f"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Next Hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db2203b9-be46-47b2-a791-9becd77fac42"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Next Hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23e748de-ffaf-4fe1-a542-6b2e1ab8e22c"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Next Hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0922f375-1abf-486b-aa5e-1bf6e8b1e381"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Previous Hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""349977c5-a96c-4b4f-a459-efd4137d3e75"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Previous Hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc8b2350-7d41-47ab-bc3a-9054bb2d4860"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Previous Hint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb69b7a4-8cd0-46e9-b3a6-2e2fb0ee7b09"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Continue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1157,6 +1266,11 @@ public class @Controls : IInputActionCollection, IDisposable
         // Attract
         m_Attract = asset.FindActionMap("Attract", throwIfNotFound: true);
         m_Attract_Interact = m_Attract.FindAction("Interact", throwIfNotFound: true);
+        // Loading
+        m_Loading = asset.FindActionMap("Loading", throwIfNotFound: true);
+        m_Loading_NextHint = m_Loading.FindAction("Next Hint", throwIfNotFound: true);
+        m_Loading_PreviousHint = m_Loading.FindAction("Previous Hint", throwIfNotFound: true);
+        m_Loading_Continue = m_Loading.FindAction("Continue", throwIfNotFound: true);
         // MenuOneDimension
         m_MenuOneDimension = asset.FindActionMap("MenuOneDimension", throwIfNotFound: true);
         m_MenuOneDimension_Confirm = m_MenuOneDimension.FindAction("Confirm", throwIfNotFound: true);
@@ -1298,6 +1412,55 @@ public class @Controls : IInputActionCollection, IDisposable
         }
     }
     public AttractActions @Attract => new AttractActions(this);
+
+    // Loading
+    private readonly InputActionMap m_Loading;
+    private ILoadingActions m_LoadingActionsCallbackInterface;
+    private readonly InputAction m_Loading_NextHint;
+    private readonly InputAction m_Loading_PreviousHint;
+    private readonly InputAction m_Loading_Continue;
+    public struct LoadingActions
+    {
+        private @Controls m_Wrapper;
+        public LoadingActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NextHint => m_Wrapper.m_Loading_NextHint;
+        public InputAction @PreviousHint => m_Wrapper.m_Loading_PreviousHint;
+        public InputAction @Continue => m_Wrapper.m_Loading_Continue;
+        public InputActionMap Get() { return m_Wrapper.m_Loading; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LoadingActions set) { return set.Get(); }
+        public void SetCallbacks(ILoadingActions instance)
+        {
+            if (m_Wrapper.m_LoadingActionsCallbackInterface != null)
+            {
+                @NextHint.started -= m_Wrapper.m_LoadingActionsCallbackInterface.OnNextHint;
+                @NextHint.performed -= m_Wrapper.m_LoadingActionsCallbackInterface.OnNextHint;
+                @NextHint.canceled -= m_Wrapper.m_LoadingActionsCallbackInterface.OnNextHint;
+                @PreviousHint.started -= m_Wrapper.m_LoadingActionsCallbackInterface.OnPreviousHint;
+                @PreviousHint.performed -= m_Wrapper.m_LoadingActionsCallbackInterface.OnPreviousHint;
+                @PreviousHint.canceled -= m_Wrapper.m_LoadingActionsCallbackInterface.OnPreviousHint;
+                @Continue.started -= m_Wrapper.m_LoadingActionsCallbackInterface.OnContinue;
+                @Continue.performed -= m_Wrapper.m_LoadingActionsCallbackInterface.OnContinue;
+                @Continue.canceled -= m_Wrapper.m_LoadingActionsCallbackInterface.OnContinue;
+            }
+            m_Wrapper.m_LoadingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @NextHint.started += instance.OnNextHint;
+                @NextHint.performed += instance.OnNextHint;
+                @NextHint.canceled += instance.OnNextHint;
+                @PreviousHint.started += instance.OnPreviousHint;
+                @PreviousHint.performed += instance.OnPreviousHint;
+                @PreviousHint.canceled += instance.OnPreviousHint;
+                @Continue.started += instance.OnContinue;
+                @Continue.performed += instance.OnContinue;
+                @Continue.canceled += instance.OnContinue;
+            }
+        }
+    }
+    public LoadingActions @Loading => new LoadingActions(this);
 
     // MenuOneDimension
     private readonly InputActionMap m_MenuOneDimension;
@@ -1913,6 +2076,12 @@ public class @Controls : IInputActionCollection, IDisposable
     public interface IAttractActions
     {
         void OnInteract(InputAction.CallbackContext context);
+    }
+    public interface ILoadingActions
+    {
+        void OnNextHint(InputAction.CallbackContext context);
+        void OnPreviousHint(InputAction.CallbackContext context);
+        void OnContinue(InputAction.CallbackContext context);
     }
     public interface IMenuOneDimensionActions
     {

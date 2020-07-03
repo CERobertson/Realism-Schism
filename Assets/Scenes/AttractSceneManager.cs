@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 public class AttractSceneManager : SceneManagerControl {
     public SceneAsset MenuScene;
     public SceneAsset JapaneseMaple;
-    public void OnEnable() => Game.AccessWithRetry(g => {
+    public void OnEnable() => SharedGame.AccessWithRetry(g => {
         g.Attract.gameObject.SetActive(true);
         g.Attract.enabled = true;
-        g.SkipTutorial.OnChoice += (s, choice) => {
-            switch ((SkipTutorial.Choice)choice) {
-                case (SkipTutorial.Choice.yes):
+        g.QuickStart.OnChoice += (s, choice) => {
+            switch ((QuickStart.Choice)choice) {
+                case (QuickStart.Choice.yes):
                     SceneManager.LoadScene(JapaneseMaple.name);
                     break;
-                case (SkipTutorial.Choice.no):
+                case (QuickStart.Choice.no):
                     SceneManager.LoadScene(MenuScene.name);
                     break;
                 default:
