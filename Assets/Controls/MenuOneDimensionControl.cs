@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
-public class MenuOneDimensionControl : MonoBehaviorControl<MenuOneDimensionActions, MenuOneDimensionControl>, IMenuOneDimensionActions {
+public class MenuOneDimensionControl : MonoBehaviour, IMenuOneDimensionActions {
     public event EventHandler<InputAction.CallbackContext> ForwardStarted;
     public event EventHandler<InputAction.CallbackContext> BackwardStarted;
     public event EventHandler<InputAction.CallbackContext> ConfirmStarted;

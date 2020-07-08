@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
 
-public class GameControl : MonoBehaviorControl<GameActions, GameControl>, IGameActions {
+public class GameControl : MonoBehaviour, IGameActions {
 
     public void OnMenu(InputAction.CallbackContext context) {
         throw new System.NotImplementedException();

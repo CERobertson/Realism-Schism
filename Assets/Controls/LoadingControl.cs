@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
 
-public class LoadingControl : MonoBehaviorControl<LoadingActions, LoadingControl>, ILoadingActions {
+public class LoadingControl : MonoBehaviour, ILoadingActions {
     public SceneAsset Scene;
 
     public event EventHandler<InputAction.CallbackContext> ContinueStarted;
